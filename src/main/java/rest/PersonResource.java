@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.PersonDTO;
+import facades.FacadeMapper;
 import utils.EMF_Creator;
 import facades.FacadePerson;
 import javax.persistence.EntityManagerFactory;
@@ -48,9 +49,9 @@ public class PersonResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(String a) {
+    public Response addPerson(String a) {
         PersonDTO personDTO = GSON.fromJson(a, PersonDTO.class);
-        PersonDTO reslt = FACADE.create(personDTO);
+        PersonDTO reslt = FACADE.createPerson(personDTO);
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
 }

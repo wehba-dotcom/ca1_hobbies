@@ -38,8 +38,8 @@ public class FacadePerson {
         return emf.createEntityManager();
     }
     
-    public PersonDTO create(PersonDTO personDTO){
-        Person person = new Person(personDTO.getEmail(), personDTO.getFirstName(),personDTO.getLasttName());
+    public PersonDTO createPerson(PersonDTO personDTO){
+        Person person = new Person(personDTO.getEmail(), personDTO.getFirstName(),personDTO.getLastName());
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -50,7 +50,7 @@ public class FacadePerson {
         }
         return new PersonDTO(person);
     }
-    public PersonDTO getById(long id){
+    public PersonDTO getPersonById(long id){
         EntityManager em = emf.createEntityManager();
         return new PersonDTO(em.find(Person.class, id));
     }
@@ -59,8 +59,8 @@ public class FacadePerson {
     public long getPersonCount(){
         EntityManager em = emf.createEntityManager();
         try{
-            long renameMeCount = (long)em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
-            return renameMeCount;
+            long PersonCount = (long)em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
+            return PersonCount;
         }finally{  
             em.close();
         }

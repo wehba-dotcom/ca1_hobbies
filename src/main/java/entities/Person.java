@@ -1,11 +1,9 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 
 
 @Entity
@@ -19,6 +17,28 @@ public class Person implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
+    @ManyToMany
+    private List<Hoppy> hoppyList;
+
+    public List<Hoppy> getHoppyList() {
+        return hoppyList;
+    }
+
+    public void setHoppyList(List<Hoppy> hoppyList) {
+        this.hoppyList = hoppyList;
+    }
+
+    public Person(List<Hoppy> hoppyList) {
+        this.hoppyList = hoppyList;
+        this.hoppyList= new ArrayList<>();
+    }
+
+    public Person(Long id, String email, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Person() {
     }
@@ -27,6 +47,7 @@ public class Person implements Serializable {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+
     }
 
     public Long getId() {

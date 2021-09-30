@@ -18,20 +18,25 @@ public class PersonDTO {
     private long id;
     private String email;
     private String firstName;
-    private String lasttName;
+    private String lastName;
 
     public PersonDTO(String email, String firstName, String lasttName) {
         this.email = email;
         this.firstName = firstName;
-        this.lasttName = lasttName;
+        this.lastName = lastName;
     }
 
+    public PersonDTO(long id, String email, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-    
-    public static List<PersonDTO> getDtos(List<Person> rms){
-        List<PersonDTO> rmdtos = new ArrayList();
-        rms.forEach(rm->rmdtos.add(new PersonDTO(rm)));
-        return rmdtos;
+    public static List<PersonDTO> getDtos(List<Person> personList){
+        List<PersonDTO> personDTOList = new ArrayList();
+        personList.forEach(person->personDTOList.add(new PersonDTO(person)));
+        return personDTOList;
     }
 
 
@@ -40,7 +45,7 @@ public class PersonDTO {
             this.id = rm.getId();
         this.email= rm.getEmail();
         this.firstName = rm.getFirstName();
-        this.lasttName = rm.getLastName();
+        this.lastName = rm.getLastName();
 
     }
 
@@ -68,11 +73,11 @@ public class PersonDTO {
         this.firstName = firstName;
     }
 
-    public String getLasttName() {
-        return lasttName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLasttName(String lasttName) {
-        this.lasttName = lasttName;
+    public void setLastName(String lasttName) {
+        this.lastName = lasttName;
     }
 }
