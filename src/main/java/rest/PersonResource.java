@@ -6,9 +6,7 @@ import dtos.PersonDTO;
 import utils.EMF_Creator;
 import facades.FacadePerson;
 import javax.persistence.EntityManagerFactory;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -43,6 +41,16 @@ public class PersonResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllPerson() {
         List<PersonDTO> reslt = FACADE.getAll();
+        return Response.ok().entity(GSON.toJson(reslt)).build();
+    }
+
+    @Path("add")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(String a) {
+        PersonDTO personDTO = GSON.fromJson(a, PersonDTO.class);
+        PersonDTO reslt = FACADE.create(personDTO);
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
 }

@@ -38,17 +38,17 @@ public class FacadePerson {
         return emf.createEntityManager();
     }
     
-    public PersonDTO create(PersonDTO rm){
-        Person rme = new Person(rm.getEmail(), rm.getFirstName(),rm.getLasttName());
+    public PersonDTO create(PersonDTO personDTO){
+        Person person = new Person(personDTO.getEmail(), personDTO.getFirstName(),personDTO.getLasttName());
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(rme);
+            em.persist(person);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return new PersonDTO(rme);
+        return new PersonDTO(person);
     }
     public PersonDTO getById(long id){
         EntityManager em = emf.createEntityManager();
