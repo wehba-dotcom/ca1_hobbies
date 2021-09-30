@@ -1,15 +1,17 @@
 package entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "hoppy")
-@Entity
 
-public class Hoppy {
+@Entity
+@NamedQuery(name = "Hoppy.deleteAllRows", query = "DELETE from Hoppy ")
+public class Hoppy implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;

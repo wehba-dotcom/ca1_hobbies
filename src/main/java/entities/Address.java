@@ -1,15 +1,14 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Table(name = "address")
+
 @Entity
-public class Address {
+@NamedQuery(name = "Address.deleteAllRows", query = "DELETE from Address ")
+public class Address implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private int hoseNumber;

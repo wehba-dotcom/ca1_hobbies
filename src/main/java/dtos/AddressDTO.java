@@ -1,17 +1,16 @@
 package dtos;
 
 import entities.Address;
-import entities.Hoppy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddressDTO {
-    private int id;
+    private Long id;
     private String street;
     private int hoseNumber;
 
-    public AddressDTO(int id, String street, int hoseNumber) {
+    public AddressDTO(Long id, String street, int hoseNumber) {
         this.id = id;
         this.street = street;
         this.hoseNumber = hoseNumber;
@@ -19,6 +18,7 @@ public class AddressDTO {
     public AddressDTO(Address address) {
         if(address.getId()!=null)
         {
+            this.id= address.getId();
             this.street= address.getStreet();
             this.hoseNumber=address.getHoseNumber();
         }
@@ -33,11 +33,11 @@ public class AddressDTO {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
