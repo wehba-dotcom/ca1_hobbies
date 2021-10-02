@@ -39,7 +39,7 @@ public class FacadeHoppy {
         }
         return new HoppyDTO(hoppy);
     }
-    public HoppyDTO getHoppyById(long id)throws MissingInputException {
+    public HoppyDTO getHoppyById(Long id)throws MissingInputException {
         EntityManager em = emf.createEntityManager();
         return new HoppyDTO(em.find(Hoppy.class, id));
     }
@@ -55,6 +55,22 @@ public class FacadeHoppy {
         }finally{
             em.close();
         }
+    }
+    public HoppyDTO removeHoppy(long id) throws MissingInputException,Exception
+    {
+        EntityManager em = emf.createEntityManager();
+        Hoppy hoppy= em.find(Hoppy.class,id);
+        if(hoppy==null)
+        try{
+
+            em.getTransaction().begin();
+            em.remove(hoppy);
+            em.getTransaction().commit();
+        }finally
+            {
+                em.close();
+            }
+        return  new HoppyDTO(hoppy);
     }
 
     public List<HoppyDTO> getAll()throws MissingInputException{

@@ -53,7 +53,7 @@ public class FacadePerson {
         }
         return new PersonDTO(person);
     }
-    public PersonDTO getPersonById(long id){
+    public PersonDTO getPersonById(int id){
         EntityManager em = emf.createEntityManager();
         return new PersonDTO(em.find(Person.class, id));
     }
