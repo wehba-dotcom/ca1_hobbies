@@ -47,6 +47,19 @@ public class HoppyResource {
         HoppyDTO reslt = FACADE.createHoppy(hoppyDTO);
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
+    @PUT
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+
+    public Response editHoppy(@PathParam("id")long id, String a) throws Exception,MissingInputException
+    {
+        HoppyDTO hoppyDTO = GSON.fromJson(a,HoppyDTO.class);
+        hoppyDTO.setId(id);
+        HoppyDTO result = FACADE.updateHoppy(hoppyDTO);
+        return Response.ok().entity(GSON.toJson(result)).build();
+    }
+
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)

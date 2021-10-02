@@ -62,7 +62,6 @@ public class FacadeHoppy {
         Hoppy hoppy= em.find(Hoppy.class,id);
         if(hoppy==null)
         try{
-
             em.getTransaction().begin();
             em.remove(hoppy);
             em.getTransaction().commit();
@@ -72,7 +71,20 @@ public class FacadeHoppy {
             }
         return  new HoppyDTO(hoppy);
     }
+   public HoppyDTO updateHoppy(HoppyDTO hoppyDTO) throws Exception,MissingInputException
+   {
+       Hoppy hoppy = new Hoppy(hoppyDTO.getId(),hoppyDTO.getName(),hoppyDTO.getDescription());
+       EntityManager em= emf.createEntityManager();
+       try{
+           em.getTransaction().begin();
+          hoppy=  em.merge(hoppy);
+          em.getTransaction().commit();
 
+       }finally {
+           em.close();
+       }
+       return new HoppyDTO(hoppy);
+   }
     public List<HoppyDTO> getAll()throws MissingInputException{
         EntityManager em = emf.createEntityManager();
         TypedQuery<Hoppy> query = em.createQuery("SELECT hoppy FROM Hoppy hoppy", Hoppy.class);
