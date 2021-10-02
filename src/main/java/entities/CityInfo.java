@@ -44,4 +44,13 @@ public class CityInfo implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "CityInfo{" +
+                "id=" + id +
+                ", zipcode=" + zipcode +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

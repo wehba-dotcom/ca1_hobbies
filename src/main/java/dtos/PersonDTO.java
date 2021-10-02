@@ -9,8 +9,9 @@ import entities.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-/**
+ /**
  *
  * @author tha
  */
@@ -80,4 +81,17 @@ public class PersonDTO {
     public void setLastName(String lasttName) {
         this.lastName = lasttName;
     }
-}
+
+     @Override
+     public boolean equals(Object o) {
+         if (this == o) return true;
+         if (!(o instanceof PersonDTO)) return false;
+         PersonDTO personDTO = (PersonDTO) o;
+         return getId() == personDTO.getId() && Objects.equals(getEmail(), personDTO.getEmail()) && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName());
+     }
+
+     @Override
+     public int hashCode() {
+         return Objects.hash(getId(), getEmail(), getFirstName(), getLastName());
+     }
+ }

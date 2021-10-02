@@ -44,4 +44,13 @@ public class Phone implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", information='" + information + '\'' +
+                '}';
+    }
 }

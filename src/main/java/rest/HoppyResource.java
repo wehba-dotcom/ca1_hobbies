@@ -3,13 +3,13 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.HoppyDTO;
+import errorhandling.MissingInputException;
 import facades.FacadeHoppy;
 
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,7 +32,7 @@ public class HoppyResource {
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllHobbies() {
+    public Response getAllHobbies() throws MissingInputException,Exception {
         List<HoppyDTO> reslt = FACADE.getAll();
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
@@ -42,7 +42,7 @@ public class HoppyResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
-    public Response addHoppy(String a) {
+    public Response addHoppy(String a) throws MissingInputException,Exception{
         HoppyDTO hoppyDTO = GSON.fromJson(a, HoppyDTO.class);
         HoppyDTO reslt = FACADE.createHoppy(hoppyDTO);
         return Response.ok().entity(GSON.toJson(reslt)).build();

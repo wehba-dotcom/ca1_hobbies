@@ -17,7 +17,7 @@ public class Person implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-    @ManyToMany
+   /* @ManyToMany
     private List<Hoppy> hoppyList;
 
     public List<Hoppy> getHoppyList() {
@@ -32,7 +32,7 @@ public class Person implements Serializable {
         this.hoppyList = hoppyList;
         this.hoppyList= new ArrayList<>();
     }
-
+*/
     public Person(Long id, String email, String firstName, String lastName) {
         this.id = id;
         this.email = email;

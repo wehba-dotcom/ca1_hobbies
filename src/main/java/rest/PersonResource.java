@@ -3,6 +3,8 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.PersonDTO;
+import errorhandling.MissingInputException;
+import errorhandling.PersonNotFoundException;
 import facades.FacadeMapper;
 import utils.EMF_Creator;
 import facades.FacadePerson;
@@ -33,14 +35,14 @@ public class PersonResource {
     public String getPersonsCount() {
 
         long count = FACADE.getPersonCount();
-        //System.out.println("--------------->"+count);
-        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
+
+        return "{\"count\":" + count + "}";
     }
 
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPerson() {
+    public Response getAllPerson()throws PersonNotFoundException, MissingInputException {
         List<PersonDTO> reslt = FACADE.getAll();
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
@@ -49,9 +51,9 @@ public class PersonResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPerson(String a) {
+    public Response addPerson(String a) throws PersonNotFoundException,MissingInputException{
         PersonDTO personDTO = GSON.fromJson(a, PersonDTO.class);
-        PersonDTO reslt = FACADE.createPerson(personDTO);
+        PersonDTO reslt = FACADE.createPerson(personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName());
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
 }

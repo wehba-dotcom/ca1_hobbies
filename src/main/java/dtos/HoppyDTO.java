@@ -1,47 +1,42 @@
 package dtos;
 
 import entities.Hoppy;
+import entities.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HoppyDTO {
-    private Long id;
+    private long id;
     private String name;
     private String description;
 
-    public HoppyDTO(Long id, String name, String description) {
+
+
+    public HoppyDTO(long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
+    public static List<HoppyDTO> getHoppyDtos(List<Hoppy> hoppyList){
+        List<HoppyDTO> hoppyDTOList = new ArrayList();
+        hoppyList.forEach(hoppy->hoppyDTOList.add(new HoppyDTO(hoppy)));
+        return hoppyDTOList;
+    }
+    public HoppyDTO(Hoppy rm) {
+        if(rm.getId() != null)
+            this.id = rm.getId();
+        this.name= rm.getMame();
+        this.description = rm.getDescription();
 
-    public HoppyDTO(String name, String description) {
-        this.name = name;
-        this.description = description;
     }
 
-    public HoppyDTO(Hoppy hoppy) {
-        if(hoppy.getId()!=null)
-        {
-            this.id=hoppy.getId();
-            this.name= hoppy.getName();
-            this.description=hoppy.getDescription();
-        }
-    }
-
-    public static List<HoppyDTO> getHoppyDTO(List<Hoppy> hoppyList)
-    {
-       List<HoppyDTO> hoppyDTOList= new ArrayList();
-       hoppyList.forEach(hoppy -> hoppyDTOList.add(new HoppyDTO(hoppy)));
-       return hoppyDTOList;
-    }
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,5 +54,18 @@ public class HoppyDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HoppyDTO)) return false;
+        HoppyDTO hoppyDTO = (HoppyDTO) o;
+        return getId() == hoppyDTO.getId() && Objects.equals(getName(), hoppyDTO.getName()) && Objects.equals(getDescription(), hoppyDTO.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDescription());
     }
 }

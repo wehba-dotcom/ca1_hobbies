@@ -1,12 +1,11 @@
 package facades;
 
 import dtos.PersonDTO;
-import entities.Hoppy;
-import entities.Person;
+import errorhandling.MissingInputException;
+import errorhandling.PersonNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class FacadeMapper {
@@ -26,7 +25,7 @@ public class FacadeMapper {
         return instance;
     }
 
-    public List<PersonDTO> getAllPersonesDTO() {
+    public List<PersonDTO> getAllPersonesDTO() throws PersonNotFoundException, MissingInputException {
         List<PersonDTO> personList = facadePerson.getAll();
 
         return personList;
@@ -36,11 +35,9 @@ public class FacadeMapper {
         return emf.createEntityManager();
     }
 
-    public PersonDTO addPersonDTO(PersonDTO personDTO) {
-        return facadePerson.createPerson(personDTO);
-    }
 
-    public long getPersoneCount() {
+
+    public long getPersoneCount()throws PersonNotFoundException,MissingInputException {
         long getcounts = facadePerson.getPersonCount();
         return getcounts;
 

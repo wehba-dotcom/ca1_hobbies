@@ -1,9 +1,8 @@
 package facades;
 
 import dtos.HoppyDTO;
-import dtos.PersonDTO;
 import entities.Hoppy;
-import entities.Person;
+import errorhandling.MissingInputException;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
@@ -28,7 +27,7 @@ public class FacadeHoppy {
         return emf.createEntityManager();
     }
 
-    public HoppyDTO createHoppy(HoppyDTO hoppyDTO) {
+    public HoppyDTO createHoppy(HoppyDTO hoppyDTO)throws MissingInputException,Exception {
         Hoppy hoppy = new Hoppy(hoppyDTO.getName(), hoppyDTO.getDescription());
         EntityManager em = emf.createEntityManager();
         try {
@@ -40,7 +39,7 @@ public class FacadeHoppy {
         }
         return new HoppyDTO(hoppy);
     }
-    public HoppyDTO getHoppyById(long id){
+    public HoppyDTO getHoppyById(long id)throws MissingInputException {
         EntityManager em = emf.createEntityManager();
         return new HoppyDTO(em.find(Hoppy.class, id));
     }
@@ -58,13 +57,13 @@ public class FacadeHoppy {
         }
     }
 
-    public List<HoppyDTO> getAll(){
+    public List<HoppyDTO> getAll()throws MissingInputException{
         EntityManager em = emf.createEntityManager();
         TypedQuery<Hoppy> query = em.createQuery("SELECT hoppy FROM Hoppy hoppy", Hoppy.class);
         List<Hoppy> hoppyList = query.getResultList();
-        return HoppyDTO.getHoppyDTO(hoppyList);
+        return HoppyDTO.getHoppyDtos(hoppyList);
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MissingInputException {
         emf = EMF_Creator.createEntityManagerFactory();
         FacadeHoppy fh = getFacadeHoppy(emf);
         fh.getAll().forEach(dto->System.out.println(dto));

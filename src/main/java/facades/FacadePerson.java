@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+
+import errorhandling.MissingInputException;
+import errorhandling.PersonNotFoundException;
 import utils.EMF_Creator;
 
 /**
@@ -38,8 +41,8 @@ public class FacadePerson {
         return emf.createEntityManager();
     }
     
-    public PersonDTO createPerson(PersonDTO personDTO){
-        Person person = new Person(personDTO.getEmail(), personDTO.getFirstName(),personDTO.getLastName());
+    public PersonDTO createPerson(String email,String firstName,String lastName){
+        Person person = new Person(email,firstName,lastName);
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -55,7 +58,7 @@ public class FacadePerson {
         return new PersonDTO(em.find(Person.class, id));
     }
     
-    //TODO Remove/Change this before use
+
     public long getPersonCount(){
         EntityManager em = emf.createEntityManager();
         try{
@@ -66,14 +69,14 @@ public class FacadePerson {
         }
     }
     
-    public List<PersonDTO> getAll(){
+    public List<PersonDTO> getAll()throws PersonNotFoundException,MissingInputException{
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT r FROM Person r", Person.class);
         List<Person> rms = query.getResultList();
         return PersonDTO.getDtos(rms);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PersonNotFoundException , MissingInputException {
         emf = EMF_Creator.createEntityManagerFactory();
         FacadePerson fe = getFacadePerson(emf);
         fe.getAll().forEach(dto->System.out.println(dto));
