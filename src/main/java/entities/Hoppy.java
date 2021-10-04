@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -11,17 +13,43 @@ public class Hoppy implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String mame;
+    private String name;
     private String description;
 
-    public Hoppy(String mame, String description) {
-        this.mame = mame;
+    @ManyToMany(mappedBy = "hoppyList",cascade = CascadeType.PERSIST)
+  private List<Person> persones;
+
+    public List<Person> getPersones() {
+        return persones;
+    }
+
+    public void setPersones(List<Person> persones) {
+        this.persones = persones;
+    }
+
+    public Hoppy(String name) {
+        this.name = name;
+        this.persones = new ArrayList<>();
+    }
+
+    public void addPerson(Person person) {
+        if(person!=null)
+       try {
+           this.persones.add(person);
+           person.getHoppyList().add(this);
+       }catch (Exception e)
+       {
+           e.getMessage();
+       }
+    }
+    public Hoppy(String name, String description) {
+        this.name = name;
         this.description = description;
     }
 
-    public Hoppy(Long id, String mame, String description) {
+    public Hoppy(Long id, String name, String description) {
         this.id = id;
-        this.mame = mame;
+        this.name = name;
         this.description = description;
     }
 
@@ -30,11 +58,11 @@ public class Hoppy implements Serializable {
     }
 
     public String getMame() {
-        return mame;
+        return name;
     }
 
-    public void setMame(String mame) {
-        this.mame = mame;
+    public void setMame(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -57,7 +85,7 @@ public class Hoppy implements Serializable {
     public String toString() {
         return "Hoppy{" +
                 "id=" + id +
-                ", mame='" + mame + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

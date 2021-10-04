@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -12,13 +14,31 @@ public class CityInfo implements Serializable {
     private Long id;
     private int zipcode;
     private String city;
+    @OneToMany(mappedBy = "cityInfo",cascade = CascadeType.PERSIST)
+    private List<Address> addressList;
+
+    public List<Address> getAddressList() {
+        return addressList;
+    }
+
+    public void addAddress(Address address) {
+        this.addressList.add(address);
+        if(address!=null)
+        {
+            address.setCityInfo(this);
+        }
+    }
 
     public CityInfo() {
     }
 
+
+
+
     public CityInfo(int zipcode, String city) {
         this.zipcode = zipcode;
         this.city = city;
+        this.addressList=new ArrayList<>();
     }
 
     public int getZipcode() {

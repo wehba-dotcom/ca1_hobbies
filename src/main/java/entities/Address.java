@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -12,10 +14,41 @@ public class Address implements Serializable {
     private Long id;
     private String street;
     private int hoseNumber;
+    @ManyToOne
+    private CityInfo cityInfo;
+    @OneToMany(mappedBy = "address",cascade = CascadeType.PERSIST)
+    private List<Person> personList;
+
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public Address(String street) {
+        this.street = street;
+
+    }
+
+    public CityInfo getCityInfo() {
+        return cityInfo;
+    }
+
+    public void setCityInfo(CityInfo cityInfo) {
+        this.cityInfo = cityInfo;
+    }
+
+    public void addperson(Person person) {
+        this.personList.add(person);
+        if(person!=null)
+        {
+            person.setAddress(this);
+        }
+    }
 
     public Address(String street, int hoseNumber) {
+
         this.street = street;
         this.hoseNumber = hoseNumber;
+
     }
 
     public String getStreet() {
@@ -24,6 +57,8 @@ public class Address implements Serializable {
 
     public void setStreet(String street) {
         this.street = street;
+        this.personList= new ArrayList<>();
+
     }
 
     public int getHoseNumber() {

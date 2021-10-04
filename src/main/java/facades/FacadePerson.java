@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
+import entities.Phone;
 import errorhandling.MissingInputException;
 import errorhandling.PersonNotFoundException;
 import utils.EMF_Creator;
@@ -77,9 +78,25 @@ public class FacadePerson {
     }
     
     public static void main(String[] args) throws PersonNotFoundException , MissingInputException {
-        emf = EMF_Creator.createEntityManagerFactory();
-        FacadePerson fe = getFacadePerson(emf);
-        fe.getAll().forEach(dto->System.out.println(dto));
+       /* FacadePerson fe = getFacadePerson(emf);
+        fe.getAll().forEach(dto->System.out.println(dto));*/
+      /*  emf = EMF_Creator.createEntityManagerFactory();
+        EntityManager em = emf.createEntityManager();
+        Person p1 = new Person("wewe@email","wehba","korouni");
+        Phone phone1= new Phone("345345","mobel");
+        Phone phone2= new Phone("9999999","mobel");
+        Phone phone3= new Phone("8888888","mobel");
+        p1.addPhone(phone1);
+        p1.addPhone(phone2);
+        p1.addPhone(phone3);
+        try{
+            em.getTransaction().begin();
+           // em.persist(p1);
+            em.getTransaction().commit();
+
+        }finally {
+            em.close();
+        }*/
     }
 
 }

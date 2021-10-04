@@ -2,6 +2,7 @@ package facades;
 
 import dtos.PhoneDTO;
 import entities.Phone;
+import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -61,6 +62,7 @@ public class FacadePhone {
             List<Phone> phoneList = query.getResultList();
             return PhoneDTO.getPhoneDTO(phoneList);
         }
+
     }
 
 

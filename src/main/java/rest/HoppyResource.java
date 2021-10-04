@@ -3,6 +3,8 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.HoppyDTO;
+import dtos.PersonDTO;
+import entities.Hoppy;
 import errorhandling.MissingInputException;
 import facades.FacadeHoppy;
 
@@ -68,5 +70,17 @@ public class HoppyResource {
         HoppyDTO hoppyDTO = null;
               hoppyDTO=  FACADE.removeHoppy(id);
         return Response.ok().entity(GSON.toJson(hoppyDTO)).build();
+    }
+    @GET
+    @Path("{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPersonesByName(@PathParam("name")String  name, String a) throws Exception,MissingInputException
+    {
+        HoppyDTO hopyyDTO = GSON.fromJson(a, HoppyDTO.class);
+        if(hopyyDTO!=null) {
+            System.out.println("HobbyDTO:" + hopyyDTO.toString());
+        }
+        List<PersonDTO> result = FACADE.getPersonesByHoppyName(name);
+        return Response.ok().entity(GSON.toJson(result)).build();
     }
 }

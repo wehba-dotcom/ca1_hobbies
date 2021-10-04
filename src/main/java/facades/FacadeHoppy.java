@@ -1,14 +1,19 @@
 package facades;
 
 import dtos.HoppyDTO;
+import dtos.PersonDTO;
 import entities.Hoppy;
+import entities.Person;
 import errorhandling.MissingInputException;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FacadeHoppy {
     public static FacadeHoppy instance;
@@ -16,6 +21,7 @@ public class FacadeHoppy {
 
     private FacadeHoppy() {
     }
+
     public static FacadeHoppy getFacadeHoppy(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
@@ -23,11 +29,12 @@ public class FacadeHoppy {
         }
         return instance;
     }
+
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public HoppyDTO createHoppy(HoppyDTO hoppyDTO)throws MissingInputException,Exception {
+    public HoppyDTO createHoppy(HoppyDTO hoppyDTO) throws MissingInputException, Exception {
         Hoppy hoppy = new Hoppy(hoppyDTO.getName(), hoppyDTO.getDescription());
         EntityManager em = emf.createEntityManager();
         try {
@@ -39,61 +46,105 @@ public class FacadeHoppy {
         }
         return new HoppyDTO(hoppy);
     }
-    public HoppyDTO getHoppyById(Long id)throws MissingInputException {
+
+    public HoppyDTO getHoppyById(Long id) throws MissingInputException {
         EntityManager em = emf.createEntityManager();
         return new HoppyDTO(em.find(Hoppy.class, id));
     }
-    public HoppyDTO getById(long id){
+
+    public HoppyDTO getById(long id) {
         EntityManager em = emf.createEntityManager();
         return new HoppyDTO(em.find(Hoppy.class, id));
     }
-    public long getHoppyCount(){
+
+    public long getHoppyCount() {
         EntityManager em = emf.createEntityManager();
-        try{
-            long hoppyCount = (long)em.createQuery("SELECT COUNT(r) FROM Hoppy r").getSingleResult();
+        try {
+            long hoppyCount = (long) em.createQuery("SELECT COUNT(r) FROM Hoppy r").getSingleResult();
             return hoppyCount;
-        }finally{
+        } finally {
             em.close();
         }
     }
-    public HoppyDTO removeHoppy(long id) throws MissingInputException,Exception
-    {
+
+    public HoppyDTO removeHoppy(long id) throws MissingInputException, Exception {
         EntityManager em = emf.createEntityManager();
-        Hoppy hoppy= em.find(Hoppy.class,id);
-        if(hoppy==null)
-        try{
-            em.getTransaction().begin();
-            em.remove(hoppy);
-            em.getTransaction().commit();
-        }finally
-            {
+        Hoppy hoppy = em.find(Hoppy.class, id);
+        if (hoppy == null)
+            try {
+                em.getTransaction().begin();
+                em.remove(hoppy);
+                em.getTransaction().commit();
+            } finally {
                 em.close();
             }
-        return  new HoppyDTO(hoppy);
+        return new HoppyDTO(hoppy);
     }
-   public HoppyDTO updateHoppy(HoppyDTO hoppyDTO) throws Exception,MissingInputException
-   {
-       Hoppy hoppy = new Hoppy(hoppyDTO.getId(),hoppyDTO.getName(),hoppyDTO.getDescription());
-       EntityManager em= emf.createEntityManager();
-       try{
-           em.getTransaction().begin();
-          hoppy=  em.merge(hoppy);
-          em.getTransaction().commit();
 
-       }finally {
-           em.close();
-       }
-       return new HoppyDTO(hoppy);
-   }
-    public List<HoppyDTO> getAll()throws MissingInputException{
+    public HoppyDTO updateHoppy(HoppyDTO hoppyDTO) throws Exception, MissingInputException {
+        Hoppy hoppy = new Hoppy(hoppyDTO.getId(), hoppyDTO.getName(), hoppyDTO.getDescription());
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            hoppy = em.merge(hoppy);
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+        return new HoppyDTO(hoppy);
+    }
+
+    public List<HoppyDTO> getAll() throws MissingInputException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Hoppy> query = em.createQuery("SELECT hoppy FROM Hoppy hoppy", Hoppy.class);
         List<Hoppy> hoppyList = query.getResultList();
         return HoppyDTO.getHoppyDtos(hoppyList);
     }
-    public static void main(String[] args) throws MissingInputException {
-        emf = EMF_Creator.createEntityManagerFactory();
+
+    public List<PersonDTO> getPersonesByHoppyName(String name) {
+        EntityManager em = emf.createEntityManager();
+        Hoppy h1 = new Hoppy(name);
+        String str = h1.getMame();
+        List<Person> list = h1.getPersones();
+        TypedQuery<Person> query =
+                em.createQuery("select p from Person p " +
+                        "inner join p.hoppyList h where h.name= :name", Person.class);
+        query.setParameter("name", name);
+        List<Person> personList = query.getResultList();
+
+
+        return PersonDTO.getDtos(personList);
+    }
+
+    public static void main(String[] args) throws MissingInputException, Exception {
+       /* emf = EMF_Creator.createEntityManagerFactory();
         FacadeHoppy fh = getFacadeHoppy(emf);
-        fh.getAll().forEach(dto->System.out.println(dto));
+        fh.getAll().forEach(dto->System.out.println(dto));*/
+      /*  emf = EMF_Creator.createEntityManagerFactory();
+
+        EntityManager em = emf.createEntityManager();
+        Hoppy h1 = new Hoppy("fitness","good training");
+        Person p1 = new Person("wehba@wew.one","Wehba","Korouni");
+        Person p2 = new Person("reham@wew.one","Reham","Wazir");
+        Person p3 = new Person("ram@wew.one","Ram","Korouni");
+       h1.addPerson(p1);
+        h1.addPerson(p2);
+        h1.addPerson(p3);
+
+
+        try{
+        em.getTransaction().begin();
+            em.persist(p1);
+            em.persist(p2);
+            em.persist(p3);
+            em.persist(h1);
+        em.getTransaction().commit();
+
+    }finally {
+            em.close();
+        }
+        }*/
     }
 }
+

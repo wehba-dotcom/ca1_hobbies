@@ -17,78 +17,93 @@ public class Person implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-   /* @ManyToMany
-    private List<Hoppy> hoppyList;
 
-    public List<Hoppy> getHoppyList() {
-        return hoppyList;
-    }
+      @ManyToMany
+        private List<Hoppy> hoppyList;
+      @OneToMany(mappedBy = "person",cascade = CascadeType.PERSIST)
+       private List<Phone> phoneList;
 
-    public void setHoppyList(List<Hoppy> hoppyList) {
-        this.hoppyList = hoppyList;
-    }
+       @ManyToOne
+            private Address address;
+        public List<Phone> getPhoneList() {
+            return phoneList;
+        }
 
-    public Person(List<Hoppy> hoppyList) {
-        this.hoppyList = hoppyList;
-        this.hoppyList= new ArrayList<>();
-    }
-*/
-    public Person(Long id, String email, String firstName, String lastName) {
-        this.id = id;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+        public Address getAddress() {
+            return address;
+        }
 
-    public Person() {
-    }
+        public void setAddress(Address address) {
+            this.address = address;
+        }
 
-    public Person(String email, String firstName, String lastName) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        public void addPhone(Phone phone) {
+            this.phoneList.add(phone);
+            if (phone!=null)
+            {
+                phone.setPerson(this);
+            }
+        }
 
-    }
+        public List<Hoppy> getHoppyList() {
+            return hoppyList;
+        }
 
-    public Long getId() {
-        return id;
-    }
+        public void setHoppyList(List<Hoppy> hoppyList) {
+            this.hoppyList = hoppyList;
+        }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+        public Person() {
+        }
 
-    public String getEmail() {
-        return email;
-    }
+        public Person(String email, String firstName, String lastName) {
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.hoppyList= new ArrayList<>();
+            this.phoneList= new ArrayList<>();
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+        }
 
-    public String getFirstName() {
-        return firstName;
-    }
+        public Long getId() {
+            return id;
+        }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+        public void setId(Long id) {
+            this.id = id;
+        }
 
-    public String getLastName() {
-        return lastName;
-    }
+        public String getEmail() {
+            return email;
+        }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+        public void setEmail(String email) {
+            this.email = email;
+        }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        @Override
+        public String toString() {
+            return "Person{" +
+                    "id=" + id +
+                    ", email='" + email + '\'' +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    '}';
+        }
 }

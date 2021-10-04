@@ -4,6 +4,7 @@ import dtos.AddressDTO;
 import dtos.PersonDTO;
 import entities.Address;
 import entities.Person;
+import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -59,5 +60,21 @@ public class FacadeAddress {
             em.close();
         }
     }
+    public static void main(String[] args) {
+        emf = EMF_Creator.createEntityManagerFactory();
+        EntityManager em = emf.createEntityManager();
+        Address a1 = new Address("toftevej",234234);
+        Person p1 = new Person("wer@wqer","wehba","sdfsdf");
+        Person p2 = new Person("ram@wqer","ram","wetwer");
+         a1.addperson(p1);
+         a1.addperson(p2);
+         try{
+             em.getTransaction().begin();
+             em.persist(a1);
+             em.getTransaction().commit();
 
+         }finally {
+             em.close();
+         }
+    }
 }

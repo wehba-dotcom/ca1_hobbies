@@ -1,7 +1,6 @@
 package dtos;
 
 import entities.Hoppy;
-import entities.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +43,9 @@ public class HoppyDTO {
         return name;
     }
 
-    public void setName(String name) {
+    public String setName(String name) {
         this.name = name;
+        return name;
     }
 
     public String getDescription() {

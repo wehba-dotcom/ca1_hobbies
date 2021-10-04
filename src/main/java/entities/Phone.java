@@ -12,6 +12,21 @@ public class Phone implements Serializable {
     private Long id;
     private String number;
     private String information;
+    @ManyToOne
+    private Person person;
+
+
+    public Phone(String number) {
+        this.number = number;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
     public Phone(String number, String information) {
         this.number = number;
