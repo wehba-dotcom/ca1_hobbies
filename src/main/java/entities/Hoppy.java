@@ -7,7 +7,7 @@ import java.util.List;
 
 
     @Entity
-    @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
+    @NamedQuery(name = "Hoppy.deleteAllRows", query = "DELETE from Hoppy")
     public class Hoppy implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,10 +49,10 @@ import java.util.List;
     }
     public Hoppy() {
     }
-    public String getMame() {
+    public String getName() {
         return name;
     }
-    public void setMame(String name) {
+    public void setName(String name) {
         this.name = name;
     }
     public String getDescription() {

@@ -17,9 +17,7 @@ import java.util.List;
 
 @Path("person")
 public class PersonResource {
-
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-
     private static final FacadePerson FACADE = FacadePerson.getFacadePerson(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     @GET

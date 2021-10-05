@@ -10,7 +10,7 @@ import java.util.Objects;
     private long id;
     private String name;
     private String description;
-    public HoppyDTO(String name, String description) {
+    public HoppyDTO(String s1, String s) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -26,7 +26,7 @@ import java.util.Objects;
     public HoppyDTO(Hoppy rm) {
         if(rm.getId() != null)
         this.id = rm.getId();
-        this.name= rm.getMame();
+        this.name= rm.getName();
         this.description = rm.getDescription();
     }
     public long getId() {

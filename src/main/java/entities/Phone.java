@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 
 @Entity
-@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
+@NamedQuery(name = "Phone.deleteAllRows", query = "DELETE from Phone")
     public class Phone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

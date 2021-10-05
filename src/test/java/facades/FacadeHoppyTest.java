@@ -46,8 +46,9 @@ class FacadeHoppyTest {
         String desciption = "running so match";
         EntityManagerFactory _emf = null;
         FacadeHoppy instance = FacadeHoppy.getFacadeHoppy(emf);
+        Hoppy h5 = new Hoppy(name,desciption);
         HoppyDTO expcted = instance.createHoppy(name, desciption);
-        HoppyDTO acuuel = new HoppyDTO(name, desciption);
+        HoppyDTO acuuel = new HoppyDTO(h5);
         expcted.setId(acuuel.getId());
         assertEquals(expcted, acuuel);
     }
