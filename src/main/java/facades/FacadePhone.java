@@ -10,10 +10,9 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacadePhone {
+  public class FacadePhone {
     private static FacadePhone instance;
     private static EntityManagerFactory emf;
-
     public FacadePhone() {
     }
     public static FacadePhone getFacadePhone(EntityManagerFactory _emf)
@@ -62,7 +61,6 @@ public class FacadePhone {
             List<Phone> phoneList = query.getResultList();
             return PhoneDTO.getPhoneDTO(phoneList);
         }
-
     }
 
 

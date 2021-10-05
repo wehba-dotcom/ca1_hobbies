@@ -22,23 +22,19 @@ public class PersonResource {
 
     private static final FacadePerson FACADE = FacadePerson.getFacadePerson(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
         return "{\"msg\":\"Hello World\"}";
     }
-
     @Path("count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getPersonsCount() {
-
         long count = FACADE.getPersonCount();
 
         return "{\"count\":" + count + "}";
     }
-
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -46,7 +42,6 @@ public class PersonResource {
         List<PersonDTO> reslt = FACADE.getAll();
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
-
     @Path("add")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -56,4 +51,4 @@ public class PersonResource {
         PersonDTO reslt = FACADE.createPerson(personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName());
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
-}
+  }

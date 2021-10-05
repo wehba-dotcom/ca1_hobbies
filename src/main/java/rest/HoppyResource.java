@@ -19,13 +19,9 @@ import java.util.List;
 
 @Path("hoppy")
 public class HoppyResource {
-
-
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final FacadeHoppy FACADE = FacadeHoppy.getFacadeHoppy(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-
     @GET
     @Produces("text/plain")
     public String hello() {
@@ -38,22 +34,19 @@ public class HoppyResource {
         List<HoppyDTO> reslt = FACADE.getAll();
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
-
     @Path("add")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-
     public Response addHoppy(String a) throws MissingInputException,Exception{
         HoppyDTO hoppyDTO = GSON.fromJson(a, HoppyDTO.class);
-        HoppyDTO reslt = FACADE.createHoppy(hoppyDTO);
+        HoppyDTO reslt = FACADE.createHoppy(hoppyDTO.getName(),hoppyDTO.getDescription());
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
     @PUT
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-
     public Response editHoppy(@PathParam("id")long id, String a) throws Exception,MissingInputException
     {
         HoppyDTO hoppyDTO = GSON.fromJson(a,HoppyDTO.class);
@@ -61,7 +54,6 @@ public class HoppyResource {
         HoppyDTO result = FACADE.updateHoppy(hoppyDTO);
         return Response.ok().entity(GSON.toJson(result)).build();
     }
-
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -83,4 +75,4 @@ public class HoppyResource {
         List<PersonDTO> result = FACADE.getPersonesByHoppyName(name);
         return Response.ok().entity(GSON.toJson(result)).build();
     }
-}
+  }

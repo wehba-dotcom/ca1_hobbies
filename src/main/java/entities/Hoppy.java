@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
-@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
-public class Hoppy implements Serializable {
+    @Entity
+    @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
+    public class Hoppy implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,21 +17,17 @@ public class Hoppy implements Serializable {
     private String description;
 
     @ManyToMany(mappedBy = "hoppyList",cascade = CascadeType.PERSIST)
-  private List<Person> persones;
-
+    private List<Person> persones;
     public List<Person> getPersones() {
         return persones;
     }
-
     public void setPersones(List<Person> persones) {
         this.persones = persones;
     }
-
     public Hoppy(String name) {
         this.name = name;
         this.persones = new ArrayList<>();
     }
-
     public void addPerson(Person person) {
         if(person!=null)
        try {
@@ -46,29 +42,22 @@ public class Hoppy implements Serializable {
         this.name = name;
         this.description = description;
     }
-
     public Hoppy(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
-
     public Hoppy() {
-
     }
-
     public String getMame() {
         return name;
     }
-
     public void setMame(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }

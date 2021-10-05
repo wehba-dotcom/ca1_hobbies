@@ -12,10 +12,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class FacadeCityInfo {
+  public class FacadeCityInfo {
     private static FacadeCityInfo instance;
     private static EntityManagerFactory emf;
-
     public FacadeCityInfo() {
     }
     public static FacadeCityInfo getFacadeCityinfo(EntityManagerFactory _emf) {
@@ -25,15 +24,13 @@ public class FacadeCityInfo {
         }
         return instance;
     }
-
     public List<CityInfoDTO> getAll(){
         EntityManager em = emf.createEntityManager();
         TypedQuery<CityInfo> query = em.createQuery("SELECT r FROM CityInfo r", CityInfo.class);
         List<CityInfo> rms = query.getResultList();
         return CityInfoDTO.getCityInfoDtos(rms);
     }
-
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
 
 
         emf = EMF_Creator.createEntityManagerFactory();
@@ -52,7 +49,6 @@ public class FacadeCityInfo {
 
         } finally {
             em.close();
-        }
+        }*/
     }
 
-}

@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/address")
-public class AddressResource {
+  public class AddressResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final FacadeAddress FACADE = FacadeAddress.getFacadeAddress(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -25,7 +25,6 @@ public class AddressResource {
     public String hello() {
         return "Hello, World!";
     }
-
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
@@ -44,4 +43,4 @@ public class AddressResource {
         AddressDTO result= FACADE.create(addressDTO);
         return Response.ok().entity(GSON.toJson(result)).build();
     }
-}
+  }

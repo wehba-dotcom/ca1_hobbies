@@ -5,7 +5,7 @@ import entities.Phone;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhoneDTO {
+  public class PhoneDTO {
     private Long id;
     private String number;
     private String information;
@@ -30,31 +30,24 @@ public class PhoneDTO {
             this.id = phone.getId();
             this.number = phone.getNumber();
             this.information = phone.getInformation();
-
         }
     }
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getNumber() {
         return number;
     }
-
     public void setNumber(String number) {
         this.number = number;
     }
-
     public String getInformation() {
         return information;
     }
-
     public void setInformation(String information) {
         this.information = information;
     }
-}
+ }
