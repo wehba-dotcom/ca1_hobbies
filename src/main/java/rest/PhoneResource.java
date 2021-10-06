@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.AddressDTO;
 import dtos.PhoneDTO;
+import errorhandling.MissingInputException;
 import errorhandling.PhoneNotFoundException;
 import facades.FacadeAddress;
 import facades.FacadePhone;
@@ -28,7 +29,7 @@ public class PhoneResource {
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllPhones() throws PhoneNotFoundException
+    public Response getAllPhones() throws PhoneNotFoundException, MissingInputException
     {
         List<PhoneDTO> phoneDTOList = FACADE.getAllPhone();
         return Response.ok().entity(GSON.toJson(phoneDTOList)).build();
@@ -37,10 +38,10 @@ public class PhoneResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addPhone(String b) throws PhoneNotFoundException
+    public Response addPhone(String b) throws PhoneNotFoundException,MissingInputException
     {
         PhoneDTO phoneDTO = GSON.fromJson(b,PhoneDTO.class);
-        PhoneDTO result= FACADE.addPhone(phoneDTO);
+        PhoneDTO result= FACADE.addPhone(phoneDTO.getNumber(),phoneDTO.getInformation());
         return Response.ok().entity(GSON.toJson(result)).build();
     }
 }

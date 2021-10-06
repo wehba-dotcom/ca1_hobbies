@@ -28,15 +28,15 @@ import java.util.List;
     {
         return emf.createEntityManager();
     }
-    public PhoneDTO addPhone(PhoneDTO phoneDTO) throws PhoneNotFoundException{
-        Phone phone = new Phone(phoneDTO.getNumber(), phoneDTO.getInformation());
-        try {
+    public PhoneDTO addPhone(String number,String infornation) throws PhoneNotFoundException{
+        Phone phone = new Phone(number,infornation);
             EntityManager em = emf.createEntityManager();
+        try {
             em.getTransaction().begin();
             em.persist(phone);
             em.getTransaction().commit();
         }finally {
-            emf.close();
+            em.close();
         }
         return new PhoneDTO(phone);
     }
