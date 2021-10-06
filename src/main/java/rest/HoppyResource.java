@@ -22,7 +22,7 @@ public class HoppyResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final FacadeHoppy FACADE = FacadeHoppy.getFacadeHoppy(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    
+
     @GET
     @Produces("text/plain")
     public String hello() {
