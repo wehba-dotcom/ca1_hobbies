@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dtos.HoppyDTO;
 import dtos.PersonDTO;
 import entities.Hoppy;
+import errorhandling.HoppyNotFoundException;
 import errorhandling.MissingInputException;
 import facades.FacadeHoppy;
 
@@ -31,7 +32,7 @@ public class HoppyResource {
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllHobbies() throws MissingInputException,Exception {
+    public Response getAllHobbies() throws MissingInputException,HoppyNotFoundException{
         List<HoppyDTO> reslt = FACADE.getAll();
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
@@ -39,7 +40,7 @@ public class HoppyResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addHoppy(String a) throws MissingInputException,Exception{
+    public Response addHoppy(String a) throws MissingInputException,HoppyNotFoundException{
         HoppyDTO hoppyDTO = GSON.fromJson(a, HoppyDTO.class);
         HoppyDTO reslt = FACADE.createHoppy(hoppyDTO.getName(),hoppyDTO.getDescription());
         return Response.ok().entity(GSON.toJson(reslt)).build();
@@ -48,7 +49,7 @@ public class HoppyResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editHoppy(@PathParam("id")long id, String a) throws Exception,MissingInputException
+    public Response editHoppy(@PathParam("id")long id, String a) throws HoppyNotFoundException,MissingInputException
     {
         HoppyDTO hoppyDTO = GSON.fromJson(a,HoppyDTO.class);
         hoppyDTO.setId(id);
@@ -58,20 +59,20 @@ public class HoppyResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id")long id) throws MissingInputException,Exception
+    public Response delete(@PathParam("id")long id) throws MissingInputException,HoppyNotFoundException
     {
         HoppyDTO hoppyDTO = null;
-              hoppyDTO=  FACADE.removeHoppy(id);
+        hoppyDTO=  FACADE.removeHoppy(id);
         return Response.ok().entity(GSON.toJson(hoppyDTO)).build();
     }
     @GET
     @Path("{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonesByName(@PathParam("name")String  name, String a) throws Exception,MissingInputException
+    public Response getPersonesByName(@PathParam("name")String  name, String a) throws HoppyNotFoundException,MissingInputException
     {
         HoppyDTO hopyyDTO = GSON.fromJson(a, HoppyDTO.class);
         if(hopyyDTO!=null) {
-            System.out.println("HobbyDTO:" + hopyyDTO.toString());
+        System.out.println("HobbyDTO:" + hopyyDTO.toString());
         }
         List<PersonDTO> result = FACADE.getPersonesByHoppyName(name);
         return Response.ok().entity(GSON.toJson(result)).build();

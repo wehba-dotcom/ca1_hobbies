@@ -37,6 +37,7 @@ import java.util.List;
             person.setAddress(this);
         }
     }
+
     public Address(String street, int hoseNumber) {
         this.street = street;
         this.hoseNumber = hoseNumber;

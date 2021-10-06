@@ -3,15 +3,13 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.AddressDTO;
-import dtos.HoppyDTO;
+import dtos.CityInfoDTO;
 import dtos.PersonDTO;
-import entities.Address;
-import errorhandling.AddressNotFoundException;
+import errorhandling.CityInfoNotFoundException;
 import errorhandling.HoppyNotFoundException;
 import errorhandling.MissingInputException;
 import facades.FacadeAddress;
-import facades.FacadePerson;
-import facades.FacadePhone;
+import facades.FacadeCityInfo;
 import utils.EMF_Creator;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.*;
@@ -19,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("/address")
-  public class AddressResource {
+@Path("/cityinfo")
+public class CityInfoResource {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-    private static final FacadeAddress FACADE = FacadeAddress.getFacadeAddress(EMF);
+    private static final FacadeCityInfo FACADE = FacadeCityInfo.getFacadeCityinfo(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     @GET
     @Produces("text/plain")
@@ -32,31 +30,31 @@ import java.util.List;
     @GET
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllAddress()throws AddressNotFoundException
+    public Response getAllCityInfo()throws CityInfoNotFoundException
     {
-        List<AddressDTO> addressDTOList = FACADE.getAll();
-        return Response.ok().entity(GSON.toJson(addressDTOList)).build();
+        List<CityInfoDTO> cityInfoDTOList = FACADE.getAll();
+        return Response.ok().entity(GSON.toJson(cityInfoDTOList)).build();
     }
     @Path("add")
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addAddress(String b) throws AddressNotFoundException
+    public Response addCityInfo(String b)throws CityInfoNotFoundException
     {
-        AddressDTO addressDTO = GSON.fromJson(b,AddressDTO.class);
-        AddressDTO result= FACADE.create(addressDTO);
+        CityInfoDTO cityInfoDTO = GSON.fromJson(b,CityInfoDTO.class);
+        CityInfoDTO result= FACADE.createCityInfo(cityInfoDTO.getZipcode(),cityInfoDTO.getCity());
         return Response.ok().entity(GSON.toJson(result)).build();
     }
     @GET
-    @Path("{street}")
+    @Path("{city}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPersonesByName(@PathParam("street")String  street, String a) throws AddressNotFoundException, MissingInputException
+    public Response getAddressByCityName(@PathParam("city")String  city, String a) throws CityInfoNotFoundException, MissingInputException
     {
         AddressDTO addressDTO = GSON.fromJson(a, AddressDTO.class);
         if(addressDTO!=null) {
-        System.out.println("PersonDTO:" + addressDTO.toString());
+            System.out.println("AddressDTO:" + addressDTO.toString());
         }
-        List<PersonDTO> result = FACADE.getAllPersonesByCityName(street);
+        List<AddressDTO> result = FACADE.getAllAddressByCityName(city);
         return Response.ok().entity(GSON.toJson(result)).build();
     }
-  }
+}

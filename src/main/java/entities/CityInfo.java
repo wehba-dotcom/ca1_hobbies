@@ -26,12 +26,18 @@ import java.util.List;
             address.setCityInfo(this);
         }
     }
-    public CityInfo() {
+
+        public CityInfo(String city) {
+            this.city = city;
+
+        }
+
+        public CityInfo() {
     }
     public CityInfo(int zipcode, String city) {
         this.zipcode = zipcode;
         this.city = city;
-        this.addressList=new ArrayList<>();
+            this.addressList=new ArrayList<>();
     }
     public int getZipcode() {
         return zipcode;

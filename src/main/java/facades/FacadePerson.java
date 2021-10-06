@@ -1,21 +1,15 @@
 package facades;
 
 import dtos.PersonDTO;
+import dtos.PhoneDTO;
 import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-
 import entities.Phone;
 import errorhandling.MissingInputException;
 import errorhandling.PersonNotFoundException;
-import utils.EMF_Creator;
-
-/**
- *
- * Rename Class to a relevant name Add add relevant facade methods
- */
   public class FacadePerson {
     private static FacadePerson instance;
     private static EntityManagerFactory emf;
@@ -27,10 +21,10 @@ import utils.EMF_Creator;
         }
         return instance;
     }
-    private EntityManager getEntityManager() {
+    private EntityManager getEntityManager()throws PersonNotFoundException {
         return emf.createEntityManager();
     }
-    public PersonDTO createPerson(String email,String firstName,String lastName){
+    public PersonDTO createPerson(String email,String firstName,String lastName)throws PersonNotFoundException{
         Person person = new Person(email,firstName,lastName);
         EntityManager em = emf.createEntityManager();
         try {
@@ -42,14 +36,14 @@ import utils.EMF_Creator;
         }
         return new PersonDTO(person);
     }
-    public PersonDTO getPersonById(int id){
+    public PersonDTO getPersonById(int id)throws PersonNotFoundException{
         EntityManager em = emf.createEntityManager();
         return new PersonDTO(em.find(Person.class, id));
     }
-    public long getPersonCount(){
+    public long getPersonCount()throws PersonNotFoundException{
         EntityManager em = emf.createEntityManager();
         try{
-            long PersonCount = (long)em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
+         long PersonCount = (long)em.createQuery("SELECT COUNT(r) FROM Person r").getSingleResult();
             return PersonCount;
         }finally{  
             em.close();
@@ -61,26 +55,15 @@ import utils.EMF_Creator;
         List<Person> rms = query.getResultList();
         return PersonDTO.getDtos(rms);
     }
-    public static void main(String[] args) throws PersonNotFoundException , MissingInputException {
-       /* FacadePerson fe = getFacadePerson(emf);
-        fe.getAll().forEach(dto->System.out.println(dto));*/
-      /*  emf = EMF_Creator.createEntityManagerFactory();
+    public List<PhoneDTO> getPhonesByPersonName(String name) throws PersonNotFoundException {
         EntityManager em = emf.createEntityManager();
-        Person p1 = new Person("wewe@email","wehba","korouni");
-        Phone phone1= new Phone("345345","mobel");
-        Phone phone2= new Phone("9999999","mobel");
-        Phone phone3= new Phone("8888888","mobel");
-        p1.addPhone(phone1);
-        p1.addPhone(phone2);
-        p1.addPhone(phone3);
-        try{
-            em.getTransaction().begin();
-           // em.persist(p1);
-            em.getTransaction().commit();
-
-        }finally {
-            em.close();
-        }*/
+        TypedQuery<Phone> query =
+        em.createQuery("select p from Phone p " +
+        "inner join p.person h where h.firstName= :name", Phone.class);
+        query.setParameter("name", name);
+        List<Phone> phoneList = query.getResultList();
+        return PhoneDTO.getPhoneDTO(phoneList);
+    }
     }
 
-}
+

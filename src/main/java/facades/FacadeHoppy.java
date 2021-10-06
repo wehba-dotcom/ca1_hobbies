@@ -7,7 +7,6 @@ import entities.Person;
 import errorhandling.HoppyNotFoundException;
 import errorhandling.MissingInputException;
 import utils.EMF_Creator;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -31,7 +30,7 @@ import java.util.Map;
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    public HoppyDTO createHoppy(String name,String description) throws MissingInputException, Exception {
+    public HoppyDTO createHoppy(String name,String description) throws MissingInputException, HoppyNotFoundException {
         Hoppy hoppy = new Hoppy(name, description);
         EntityManager em = emf.createEntityManager();
         try {
@@ -63,7 +62,6 @@ import java.util.Map;
     public HoppyDTO removeHoppy(long id) throws MissingInputException, HoppyNotFoundException{
         EntityManager em = emf.createEntityManager();
         Hoppy hoppy = em.find(Hoppy.class, id);
-
             try {
                 em.getTransaction().begin();
                 em.remove(hoppy);
@@ -80,7 +78,6 @@ import java.util.Map;
             em.getTransaction().begin();
             hoppy = em.merge(hoppy);
             em.getTransaction().commit();
-
         } finally {
             em.close();
         }
@@ -94,37 +91,11 @@ import java.util.Map;
     }
     public List<PersonDTO> getPersonesByHoppyName(String name) throws HoppyNotFoundException {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query =
-                em.createQuery("select p from Person p " +
-                 "inner join p.hoppyList h where h.name= :name", Person.class);
+        TypedQuery<Person> query = em.createQuery("select p from Person p " + "inner join p.hoppyList h where h.name= :name", Person.class);
         query.setParameter("name", name);
         List<Person> personList = query.getResultList();
         return PersonDTO.getDtos(personList);
     }
-    public static void main(String[] args) throws MissingInputException, HoppyNotFoundException {
-       /* emf = EMF_Creator.createEntityManagerFactory();
-        FacadeHoppy fh = getFacadeHoppy(emf);
-        fh.getAll().forEach(dto->System.out.println(dto));*/
-      /*  emf = EMF_Creator.createEntityManagerFactory();
-        EntityManager em = emf.createEntityManager();
-        Hoppy h1 = new Hoppy("fitness","good training");
-        Person p1 = new Person("wehba@wew.one","Wehba","Korouni");
-        Person p2 = new Person("reham@wew.one","Reham","Wazir");
-        Person p3 = new Person("ram@wew.one","Ram","Korouni");
-       h1.addPerson(p1);
-        h1.addPerson(p2);
-        h1.addPerson(p3);
-
-
-        try{
-        em.getTransaction().begin();
-            em.persist(h1);
-        em.getTransaction().commit();
-
-    }finally {
-            em.close();
-        }*/
         }
 
-}
 
