@@ -38,16 +38,26 @@ import java.util.List;
            e.getMessage();
        }
     }
+    public void removePerson(Person person)
+    {
+        if(person!=null)
+        {
+          this.persones.remove(person);
+          person.getHoppyList().remove(this);
+        }
+    }
     public Hoppy(String name, String description) {
         this.name = name;
         this.description = description;
     }
-    public Hoppy(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-    public Hoppy() {
+
+        public Hoppy(Long id, String name, String description) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+        }
+
+        public Hoppy() {
     }
     public String getName() {
         return name;

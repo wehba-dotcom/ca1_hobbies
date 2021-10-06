@@ -53,13 +53,17 @@ import javax.persistence.*;
             public Person() {
             }
 
-            public Person(String email, String firstName, String lastName) {
+              public Person(String firstName) {
+                  this.firstName = firstName;
+                  this.hoppyList= new ArrayList<>();
+              }
+
+              public Person(String email, String firstName, String lastName) {
                 this.email = email;
                 this.firstName = firstName;
                 this.lastName = lastName;
-                this.hoppyList= new ArrayList<>();
-                this.phoneList= new ArrayList<>();
 
+                this.phoneList= new ArrayList<>();
             }
 
             public Long getId() {

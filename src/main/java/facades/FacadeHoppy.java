@@ -63,7 +63,7 @@ import java.util.Map;
     public HoppyDTO removeHoppy(long id) throws MissingInputException, HoppyNotFoundException{
         EntityManager em = emf.createEntityManager();
         Hoppy hoppy = em.find(Hoppy.class, id);
-        if (hoppy == null)
+
             try {
                 em.getTransaction().begin();
                 em.remove(hoppy);
@@ -105,8 +105,7 @@ import java.util.Map;
        /* emf = EMF_Creator.createEntityManagerFactory();
         FacadeHoppy fh = getFacadeHoppy(emf);
         fh.getAll().forEach(dto->System.out.println(dto));*/
-        emf = EMF_Creator.createEntityManagerFactory();
-/*
+      /*  emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
         Hoppy h1 = new Hoppy("fitness","good training");
         Person p1 = new Person("wehba@wew.one","Wehba","Korouni");
@@ -124,8 +123,8 @@ import java.util.Map;
 
     }finally {
             em.close();
-        }
         }*/
-    }
+        }
+
 }
 

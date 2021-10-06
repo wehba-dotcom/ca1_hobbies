@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
-import javax.ejb.ObjectNotFoundException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import static org.junit.jupiter.api.Assertions.*;
@@ -79,7 +79,7 @@ class FacadeHoppyTest {
         HoppyDTO actualhoppy= new HoppyDTO(h1);
         HoppyDTO expctedhoppy= FacadeHoppy.instance.removeHoppy(id);
         int HoppyAfterDeleted=  instance.getAll().size();
-        assertEquals(6,HoppyAfterDeleted);
+        assertEquals(5,HoppyAfterDeleted);
         assertEquals(actualhoppy,expctedhoppy);
       //  assertThrows(HoppyNotFoundException.class, () -> {instance.getHoppyById(id);});
     }

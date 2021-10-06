@@ -4,6 +4,8 @@ import dtos.HoppyDTO;
 import entities.Hoppy;
 import entities.Person;
 import errorhandling.HoppyNotFoundException;
+import errorhandling.MissingInputException;
+import errorhandling.PersonNotFoundException;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -14,6 +16,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +31,9 @@ import java.util.List;
 import java.util.MissingFormatWidthException;
 
 import static io.restassured.RestAssured.given;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 class HoppyResourceTest {
@@ -42,7 +45,7 @@ class HoppyResourceTest {
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
 
-    static org.glassfish.grizzly.http.server.HttpServer startServer() {
+    static HttpServer startServer() {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
@@ -61,13 +64,13 @@ class HoppyResourceTest {
         RestAssured.defaultParser = Parser.JSON;
     }
 
-   /* @AfterAll
+    @AfterAll
     public static void closeTestServer() {
         //System.in.read();
         //Don't forget this, if you called its counterpart in @BeforeAll
         EMF_Creator.endREST_TestWithDB();
-        httpServer.();
-    }*/
+        httpServer.shutdownNow();
+    }
 
 
 
@@ -77,15 +80,15 @@ class HoppyResourceTest {
     {
         EntityManager em = emf.createEntityManager();
         h1 = new Hoppy("sport","runing");
-       h1.addPerson(new Person("we@wew","wassem","hamore"));
+       //h1.addPerson(new Person("we@wew","wassem","hamore"));
         h2= new Hoppy("swaimm","fresh boday");
-        h2.addPerson(new Person("gde@ono.dk","wagr","korouni"));
+        //h2.addPerson(new Person("gde@ono.dk","wagr","korouni"));
         h3= new Hoppy("boxing","good armes");
-        h3.addPerson(new Person("wert@we.com","sammer","alharfoosh"));
+        //h3.addPerson(new Person("wert@we.com","sammer","alharfoosh"));
         try{
             em.getTransaction().begin();
             em.createNamedQuery("Hoppy.deleteAllRows").executeUpdate();
-            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+
             em.persist(h1);
             em.persist(h2);
             em.persist(h3);
@@ -98,33 +101,34 @@ class HoppyResourceTest {
     @Test
     void hello() {
         given().
-        when().get("/person").
+        when().get("/hoppy").
                 then().statusCode(200);
     }
 
     @Test
-    void getAllHobbies() throws HoppyNotFoundException , MissingFormatWidthException {
-        List<HoppyDTO> hoppyDTOList;
-        hoppyDTOList=
-                 given().contentType("Application/json")
-                .when().get("/hoppy/all")
-                .then().extract().body().jsonPath().getList("all",HoppyDTO.class);
+    void getAllHobbies() throws HoppyNotFoundException {
 
-        HoppyDTO h1DTO= new HoppyDTO(h1);
-        HoppyDTO h2DTO= new HoppyDTO(h2);
-        HoppyDTO h3DTO= new HoppyDTO(h3);
-      assertThat(hoppyDTOList,containsInAnyOrder(h1DTO,h2DTO,h3DTO));
+     List<HoppyDTO> hoppyDTOList;
+        hoppyDTOList =
+                given().contentType("Application/json")
+                        .when().get("/hoppy/all")
+                        .then().extract().body().jsonPath().getList("", HoppyDTO.class);
+            HoppyDTO h1DTO = new HoppyDTO(h1);
+            HoppyDTO h2DTO = new HoppyDTO(h2);
+            HoppyDTO h3DTO = new HoppyDTO(h3);
+            assertThat(hoppyDTOList, containsInAnyOrder(h1DTO,h2DTO,h3DTO));
+
     }
 
     @Test
-    void addHoppy() throws HoppyNotFoundException,MissingFormatWidthException{
+    public void addHoppy(){
         given().contentType(ContentType.JSON)
-                .body(new HoppyDTO("run","everyday"))
+                .body(new HoppyDTO("sport","good"))
                 .when()
-                .post("hoppy")
+                .post("/hoppy/add")
                 .then()
-                .body("name",equalTo("run"))
-                .body("description",equalTo("everyday"))
+                .body("name",equalTo("sport"))
+                .body("description",equalTo("good"))
                 .body("id",notNullValue());
     }
 
@@ -145,23 +149,14 @@ class HoppyResourceTest {
     }
 
     @Test
-    void delete() {
+    void delete()throws MissingInputException,HoppyNotFoundException {
         HoppyDTO hoppy = new HoppyDTO(h1);
         given()
                 .contentType("application/json")
-                .delete("/hoppy/" + hoppy.getId())
+                .delete("hoppy/" + hoppy.getId())
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode());
-        List<HoppyDTO> hoppyListDTOs;
-        hoppyListDTOs = given()
-                .contentType("application/json")
-                .when()
-                .get("/hoppy/all")
-                .then()
-                .extract().body().jsonPath().getList("all", HoppyDTO.class);
-        HoppyDTO h2DTO = new HoppyDTO(h2);
-        HoppyDTO h3DTO = new HoppyDTO(h3);
-        assertThat(hoppyListDTOs, containsInAnyOrder(h2DTO, h3DTO));
+       
     }
     }
