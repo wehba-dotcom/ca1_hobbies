@@ -1,13 +1,16 @@
 package facades;
 
+import dtos.HoppyDTO;
 import dtos.PersonDTO;
 import dtos.PhoneDTO;
+import entities.Hoppy;
 import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import entities.Phone;
+import errorhandling.HoppyNotFoundException;
 import errorhandling.MissingInputException;
 import errorhandling.PersonNotFoundException;
   public class FacadePerson {
@@ -49,6 +52,18 @@ import errorhandling.PersonNotFoundException;
             em.close();
         }
     }
+      public PersonDTO editPerson(long id,String email,String firstName,String lastName) throws PersonNotFoundException {
+          Person person = new Person(id,email,firstName,lastName);
+          EntityManager em = emf.createEntityManager();
+          try {
+              em.getTransaction().begin();
+             person = em.merge(person);
+              em.getTransaction().commit();
+          } finally {
+              em.close();
+          }
+          return new PersonDTO(person);
+      }
     public List<PersonDTO> getAll()throws PersonNotFoundException,MissingInputException{
         EntityManager em = emf.createEntityManager();
         TypedQuery<Person> query = em.createQuery("SELECT r FROM Person r", Person.class);

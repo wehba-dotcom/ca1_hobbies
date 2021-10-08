@@ -34,7 +34,10 @@ import javax.persistence.*;
                 this.address = address;
             }
 
-            public void addPhone(Phone phone) {
+              public Person() {
+              }
+
+              public void addPhone(Phone phone) {
             this.phoneList.add(phone);
             if (phone!=null)
             {
@@ -50,7 +53,7 @@ import javax.persistence.*;
                 this.hoppyList = hoppyList;
             }
 
-            public Person() {
+            public Person(long id, String email, String firstName, String lastName) {
             }
 
               public Person(String firstName) {
