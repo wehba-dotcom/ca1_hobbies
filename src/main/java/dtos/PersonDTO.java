@@ -20,7 +20,7 @@ import java.util.Objects;
     private String email;
     private String firstName;
     private String lastName;
-    public PersonDTO(String email, String firstName, String lasttName) {
+    public PersonDTO(String email, String firstName, String lastName) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

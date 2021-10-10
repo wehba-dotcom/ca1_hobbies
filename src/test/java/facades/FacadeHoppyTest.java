@@ -1,4 +1,3 @@
-/*
 package facades;
 
 import dtos.HoppyDTO;
@@ -105,4 +104,4 @@ class FacadeHoppyTest {
         long expcted= instance.getAll().size();
         assertEquals(actual,expcted);
     }
-}*/
+}

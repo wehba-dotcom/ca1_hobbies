@@ -1,5 +1,7 @@
 package rest;
 
+import cors.CorsFilter;
+
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
@@ -27,6 +29,7 @@ public class ApplicationConfig extends Application {
         resources.add(CityInfoResource.class);
         resources.add(AddressResource.class);
         resources.add(PhoneResource.class);
+        resources.add(CorsFilter.class);
     }
     
 }

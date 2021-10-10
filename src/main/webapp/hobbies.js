@@ -1,4 +1,5 @@
 
+
 const tabs= document.querySelectorAll("[data-tab-target]");
 const tabcontens= document.querySelectorAll("[data-tab-content]")
 tabs.forEach(tab => {
@@ -14,6 +15,8 @@ tabs.forEach(tab => {
         target.classList.add("active")
     })
 });
+
+
 
 async function getAllPerson() {
     var url1="https://www.test.alltoone.dk/allinone/api/person/all";

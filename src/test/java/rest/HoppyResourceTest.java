@@ -1,4 +1,3 @@
-/*
 package rest;
 
 import dtos.HoppyDTO;
@@ -161,4 +160,3 @@ class HoppyResourceTest {
        
     }
     }
-*/
