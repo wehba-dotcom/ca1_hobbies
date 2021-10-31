@@ -158,4 +158,6 @@ var addressdel1=document.getElementById("add3");
 addressdel1.addEventListener("click",(event)=>{
     event.preventDefault();
     addAddress();
+
+    
 });
