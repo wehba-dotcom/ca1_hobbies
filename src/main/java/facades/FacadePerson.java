@@ -3,6 +3,7 @@ package facades;
 import dtos.HoppyDTO;
 import dtos.PersonDTO;
 import dtos.PhoneDTO;
+import entities.Address;
 import entities.Hoppy;
 import entities.Person;
 import java.util.List;
@@ -39,10 +40,11 @@ import errorhandling.PersonNotFoundException;
         }
         return new PersonDTO(person);
     }
-    public PersonDTO getPersonById(int id)throws PersonNotFoundException{
-        EntityManager em = emf.createEntityManager();
-        return new PersonDTO(em.find(Person.class, id));
-    }
+      public PersonDTO getPersonById(long id) throws PersonNotFoundException {
+          EntityManager em = emf.createEntityManager();
+          Person p = em.find(Person.class,id);
+          return new PersonDTO(p);
+      }
     public long getPersonCount()throws PersonNotFoundException{
         EntityManager em = emf.createEntityManager();
         try{
@@ -52,8 +54,8 @@ import errorhandling.PersonNotFoundException;
             em.close();
         }
     }
-      public PersonDTO editPerson(long id,String email,String firstName,String lastName) throws PersonNotFoundException {
-          Person person = new Person(id,email,firstName,lastName);
+      public PersonDTO editPerson(String email,String firstName,String lastName) throws PersonNotFoundException {
+          Person person = new Person(email,firstName,lastName);
           EntityManager em = emf.createEntityManager();
           try {
               em.getTransaction().begin();

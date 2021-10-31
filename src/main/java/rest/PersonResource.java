@@ -31,11 +31,18 @@ public class PersonResource {
         long count = FACADE.getPersonCount();
         return "{\"count\":" + count + "}";
     }
-    @Path("all")
+    @Path("/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllPerson()throws PersonNotFoundException, MissingInputException {
         List<PersonDTO> reslt = FACADE.getAll();
+        return Response.ok().entity(GSON.toJson(reslt)).build();
+    }
+    @GET
+    @Path("{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonByIdPerson(@PathParam("id")long id)throws PersonNotFoundException{
+        PersonDTO reslt = FACADE.getPersonById(id);
         return Response.ok().entity(GSON.toJson(reslt)).build();
     }
     @Path("add")
@@ -55,7 +62,7 @@ public class PersonResource {
     {
         PersonDTO personDTO = GSON.fromJson(a,PersonDTO.class);
         personDTO.setId(id);
-        PersonDTO result = FACADE.editPerson(personDTO.getId(),personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName());
+        PersonDTO result = FACADE.editPerson(personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName());
         return Response.ok().entity(GSON.toJson(result)).build();
     }
     @GET

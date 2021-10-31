@@ -24,7 +24,10 @@ import javax.persistence.*;
 
             @ManyToOne
             private Address address;
-            public List<Phone> getPhoneList() {
+
+
+
+              public List<Phone> getPhoneList() {
                     return phoneList;
                 }
             public Address getAddress() {
@@ -53,8 +56,7 @@ import javax.persistence.*;
                 this.hoppyList = hoppyList;
             }
 
-            public Person(long id, String email, String firstName, String lastName) {
-            }
+
 
               public Person(String firstName) {
                   this.firstName = firstName;
@@ -68,7 +70,9 @@ import javax.persistence.*;
                 this.lastName = lastName;
             }
 
-            public Long getId() {
+
+
+              public Long getId() {
                 return id;
             }
             public void setId(Long id) {
@@ -86,7 +90,7 @@ import javax.persistence.*;
             public void setFirstName(String firstName) {
                 this.firstName = firstName;
             }
-            public String getLastName() {
+             public String getLastName() {
             return lastName;
         }
             public void setLastName(String lastName) {

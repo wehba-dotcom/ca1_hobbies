@@ -37,7 +37,7 @@ import java.util.Objects;
         return personDTOList;
     }
     public PersonDTO(Person rm) {
-        if(rm.getId() != null)
+        if(rm.getId()!=null)
             this.id = rm.getId();
         this.email= rm.getEmail();
         this.firstName = rm.getFirstName();

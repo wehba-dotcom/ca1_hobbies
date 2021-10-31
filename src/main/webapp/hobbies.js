@@ -20,8 +20,8 @@ tabs.forEach(tab => {
 
 async function getAllPerson() {
     var url1="https://www.test.alltoone.dk/allinone/api/person/all";
-    var url2="http://localhost:8080/hobbies/api/person/all";
-    var response = await fetch(url2);
+    var url2="http://localhost:8080/hobbies-sem3/api/person/all";
+    var response = await fetch(url1);
     var data = await response.json();
     let personTable = document.getElementById("searsh")
     const tabelArray = data.map(person=>
@@ -31,7 +31,20 @@ async function getAllPerson() {
             <td>${person.firstName}</td> 
             <td>${person.lastName}</td>
          </tr>`)
-    personTable.innerHTML = tabelArray.join('');
+    personTable.innerHTML = tabelArray.join("")
+}
+
+function errorHandling(err)
+{
+    console.log(err)
+    if (err.status)
+    {
+        err.fullError.then(e => console.log(e.message))
+    }
+    else
+    {
+        console.log("Network error")
+    }
 }
 var persondel=document.getElementById("hint");
 
@@ -39,10 +52,11 @@ persondel.addEventListener("click",(event)=>{
     event.preventDefault();
     getAllPerson();
 });
+
 async function getAllHoppy() {
     var url1="https://www.test.alltoone.dk/allinone/api/hoppy/all";
-    var url2="http://localhost:8080/hobbies/api/hoppy/all";
-    var response = await fetch(url2);
+    var url2="http://localhost:8080/hobbies-sem3/api/hoppy/all";
+    var response = await fetch(url1);
     var data1 = await response.json();
     let hoppyTable = document.getElementById("searsh1")
     const tabelArray1 = data1.map(hoppy=>
@@ -51,7 +65,7 @@ async function getAllHoppy() {
             <td>${hoppy.name}</td>
             <td>${hoppy.description}</td> 
          </tr>`)
- hoppyTable.innerHTML = tabelArray1.join('');
+ hoppyTable.innerHTML = tabelArray1.join("");
 }
 var hoppydel=document.getElementById("hint1");
 hoppydel.addEventListener("click",ev =>{
@@ -73,7 +87,7 @@ async function addPerson() {
             lastName: document.getElementById("lname").value
         })
     }
-    fetch("http://localhost:8080/hobbies/api/person/add",options);
+    fetch("http://localhost:8080/hobbies-sem3/api/person/add",options);
 }
 var persondel1=document.getElementById("add");
 persondel1.addEventListener("click",(event)=>{
@@ -97,7 +111,7 @@ async function addHoppy() {
           description: document.getElementById("description").value,
         })
     }
-    fetch("http://localhost:8080/hobbies/api/hoppy/add",options);
+    fetch("http://localhost:8080/hobbies-sem3/api/hoppy/add",options);
 }
 let hoppydel1= document.getElementById("add1");
 hoppydel1.addEventListener("click",(ev)=>{
@@ -106,8 +120,8 @@ hoppydel1.addEventListener("click",(ev)=>{
 })
 async function getAllAddress() {
     var url1="https://www.test.alltoone.dk/allinone/api/address/all";
-    var url2="http://localhost:8080/hobbies/api/address/all";
-    var response = await fetch(url2);
+    var url2="http://localhost:8080/hobbies-sem3/api/address/all";
+    var response = await fetch(url1);
     var data3 = await response.json();
     let addressTable = document.getElementById("searsh3")
     const tabelArray3 = data3.map(address=>
@@ -138,7 +152,7 @@ async function addAddress() {
 
         })
     }
-    fetch("http://localhost:8080/hobbies/api/address/add",options);
+    fetch("http://localhost:8080/hobbies-sem3/api/address/add",options);
 }
 var addressdel1=document.getElementById("add3");
 addressdel1.addEventListener("click",(event)=>{
